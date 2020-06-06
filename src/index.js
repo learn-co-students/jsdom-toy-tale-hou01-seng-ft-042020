@@ -62,10 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Accept: "application/json"
       },
       body: JSON.stringify({
-        // likes: toy.likes++ //toy.likes = toy.likes + 1
-        likes: toy.likes + 1
-        // likes: ++toy.likes //toy.likes = toy.likes + 1
-        // likes: toy.likes+=1 //toy.likes = toy.likes + 1
+        likes: ++ toy.likes
       })
     })
     .then(res => res.json())
