@@ -14,32 +14,35 @@ addBtn.addEventListener("click", () => {
 });
 /* DO NOT TOUCH */
 
-const url = "http://localhost:3000/toys";
 const toyCollection = document.getElementById("toy-collection");
+const url = "http://localhost:3000/toys";
 
+// SHOWING ALL TOYS
 fetch(url)
   .then((res) => res.json())
-  .then((toys) => {
-    for (const toy of toys) {
-      addToList(toy);
+  .then((toysJson) => {
+    // iterate and make a card for each toy
+    for (const toy of toysJson) {
+      addCardToDOM(toy);
     }
   });
 
-function renderToys(toy) {
-  const divCard = document.createElement("div");
+// MAKE SINGLE CARD
+function makeCard(toyObj) {
+  const div = document.createElement("div");
   const h2 = document.createElement("h2");
   const img = document.createElement("img");
-  const toyLikes = document.createElement("p");
+  const p = document.createElement("p");
   const btn = document.createElement("button");
 
-  divCard.classList.add("card");
-  h2.innerText = toy.name;
-  img.src = toy.image;
+  h2.innerText = toyObj.name;
   img.classList.add("toy-avatar");
-  toyLikes.innerText = `${toy.likes} Likes`;
+  img.src = toyObj.image;
+  p.textContent = `${toyObj.likes} Likes`;
   btn.classList.add("like-btn");
-  btn.innerText = "Like <3";
+  btn.textContent = "Like <3";
 
+  // UPDATING FOR PATCH
   btn.addEventListener("click", (e) => {
     const options = {
       method: "PATCH",
@@ -48,33 +51,37 @@ function renderToys(toy) {
         Accept: "application/json",
       },
       body: JSON.stringify({
-        likes: ++toy.likes,
+        likes: ++toyObj.likes,
       }),
     };
-    fetch(`${url}/${toy.id}`, options)
+
+    fetch(`${url}/${toyObj.id}`, options)
       .then((res) => res.json())
       .then((toy) => {
-        toyLikes.textContent = `${toy.likes} Likes`;
+        p.textContent = `${toy.likes} Likes`;
       });
   });
 
-  divCard.append(h2, img, toyLikes, btn);
+  div.classList.add("card");
+  div.append(h2, img, p, btn);
 
-  return divCard;
+  return div;
 }
 
-function addToList(toy) {
-  const div = renderToys(toy);
+function addCardToDOM(toyObj) {
+  const div = makeCard(toyObj);
+
   toyCollection.append(div);
 }
 
+// POSTING NEW TOY
 const form = document.querySelector(".add-toy-form");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const toyName = form[0].value;
-  const toyImg = form[1].value;
 
+  const toyName = form[0].value;
+  const toyImage = form[1].value;
   const options = {
     method: "POST",
     headers: {
@@ -83,7 +90,7 @@ form.addEventListener("submit", (e) => {
     },
     body: JSON.stringify({
       name: toyName,
-      image: toyImg,
+      image: toyImage,
       likes: 0,
     }),
   };
@@ -91,7 +98,7 @@ form.addEventListener("submit", (e) => {
   fetch(url, options)
     .then((res) => res.json())
     .then((toy) => {
-      addToList(toy);
+      addCardToDOM(toy);
       form.reset();
     });
 });
