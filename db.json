@@ -47,6 +47,18 @@
       "name": "Little Green Men",
       "image": "http://www.pngmart.com/files/3/Toy-Story-Alien-PNG-File.png",
       "likes": -2
+    },
+    {
+      "name": "Corgnelious",
+      "image": "https://i1.wp.com/corgiguide.com/wp-content/uploads/2014/07/6343277888_afa89df739_z.jpg?resize=640%2C512",
+      "likes": 1,
+      "id": 9
+    },
+    {
+      "name": "Roxy",
+      "image": "https://i1.wp.com/corgiguide.com/wp-content/uploads/2014/07/6343277888_afa89df739_z.jpg?resize=640%2C512",
+      "likes": 1,
+      "id": 10
     }
   ]
 }
